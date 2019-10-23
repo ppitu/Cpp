@@ -3,18 +3,20 @@
 
 #include <iostream>
 
+template <typename T>
 struct ElementList
 {
-	int data;
+	T data;
 	struct ElementList *next;
 
-	ElementList(int element, ElementList *ptr = nullptr)
+	ElementList(T element, ElementList *ptr = nullptr)
 	{
 		data = element;
 		next = ptr;
 	}
 };
 
+template <typename T>
 class ListaJednokierunkowa
 {
 	public:
@@ -23,26 +25,27 @@ class ListaJednokierunkowa
 			head = tail = nullptr;
 		}
 		~ListaJednokierunkowa();
-		int isEmpty()
+		T isEmpty()
 		{
 			return head == nullptr;
 		}
-		void addToHead(int );
-		void addToTail(int );
-		int deleteFromHead(); //usuniecie z poczatku i zwrocenie wartosci 
-		int deleteFromTail(); //usunuecie z konca i zwrocenie wartosc
-		void deleteNode(int);
-		bool isInList(int) const;
+		void addToHead(T );
+		void addToTail(T );
+		T deleteFromHead(); //usuniecie z poczatku i zwrocenie wartosci 
+		T deleteFromTail(); //usunuecie z konca i zwrocenie wartosc
+		void deleteNode(T );
+		bool isInList(T ) const;
 		void print() const;
 		
 	private:
-		ElementList *head, *tail;
+		ElementList<T> *head, *tail;
 
 };
 
-ListaJednokierunkowa::~ListaJednokierunkowa()
+template <typename T>
+ListaJednokierunkowa<T>::~ListaJednokierunkowa()
 {
-	for(ElementList *p; !isEmpty(); )
+	for(ElementList<T> *p; !isEmpty(); )
 	{
 		p = head->next;
 		delete head;
@@ -50,35 +53,39 @@ ListaJednokierunkowa::~ListaJednokierunkowa()
 	}
 }
 
-void ListaJednokierunkowa::addToHead(int element)
+template <typename T>
+void ListaJednokierunkowa<T>::addToHead(T element)
 {
-	head = new ElementList(element, head);
+	head = new ElementList<T>(element, head);
 	if(tail == nullptr)
 		tail = head;
 }
 
-void ListaJednokierunkowa::addToTail(int element)
+template <typename T>
+void ListaJednokierunkowa<T>::addToTail(T element)
 {
 	if(tail != nullptr) //jesli lista nie jest pusta
 	{
-		tail->next = new ElementList(element);
+		tail->next = new ElementList<T>(element);
 		tail = tail->next;
 	}
 	else
-		head = tail = new ElementList(element);
+		head = tail = new ElementList<T>(element);
 }
 
-void ListaJednokierunkowa::print() const
+template <typename T>
+void ListaJednokierunkowa<T>::print() const
 {
-	for(ElementList *tmp = head; tmp != nullptr; tmp = tmp->next)
+	for(ElementList<T> *tmp = head; tmp != nullptr; tmp = tmp->next)
 		std::cout << tmp->data << " ";
 	std::cout << std::endl;
 }
 
-int ListaJednokierunkowa::deleteFromHead()
+template <typename T>
+T ListaJednokierunkowa<T>::deleteFromHead()
 {
-	int element = head->data;
-	ElementList *tmp = head;
+	T element = head->data;
+	ElementList<T> *tmp = head;
 	if(head == tail) //jesli zawiera jeden wezel
 		head = tail = nullptr;
 	else	
@@ -87,9 +94,10 @@ int ListaJednokierunkowa::deleteFromHead()
 	return element;
 }
 
-int ListaJednokierunkowa::deleteFromTail()
+template <typename T>
+T ListaJednokierunkowa<T>::deleteFromTail()
 {
-	int element = tail->data;
+	T element = tail->data;
 	if(head == tail) //jesli zawiera jeden element
 	{
 		delete head;
@@ -97,7 +105,7 @@ int ListaJednokierunkowa::deleteFromTail()
 	}
 	else
 	{
-		ElementList *tmp;
+		ElementList<T> *tmp;
 		for(tmp = head; tmp->next != tail; tmp = tmp->next); //znajdz poprzednik elementu ostatniego
 		delete tail;
 		tail = tmp;
@@ -106,7 +114,8 @@ int ListaJednokierunkowa::deleteFromTail()
 	return element;
 }
 
-void ListaJednokierunkowa::deleteNode(int element)
+template <typename T>
+void ListaJednokierunkowa<T>::deleteNode(T element)
 {
 	if(head != nullptr) //jesli lista nie jest pusta
 	{
@@ -117,13 +126,13 @@ void ListaJednokierunkowa::deleteNode(int element)
 		}
 		else if(element == head->data) //jesli lista zawiera ponad jeden element
 		{
-			ElementList *tmp = head;
+			ElementList<T> *tmp = head;
 			head = head->next;
 			delete tmp;
 		}
 		else
 		{
-			ElementList *pred, *tmp;
+			ElementList<T> *pred, *tmp;
 			for(pred = head, tmp = head->next; tmp != nullptr && !(tmp->data); pred = pred->next, tmp = tmp->next);
 			if(tmp != nullptr)
 			{
@@ -136,9 +145,10 @@ void ListaJednokierunkowa::deleteNode(int element)
 	}
 }
 
-bool ListaJednokierunkowa::isInList(int element) const
+template <typename T>
+bool ListaJednokierunkowa<T>::isInList(T element) const
 {
-	ElementList *tmp;
+	ElementList<T> *tmp;
 	for(tmp = head; tmp != nullptr && !(tmp->data == element); tmp = tmp->next);
 	return tmp != nullptr;
 }

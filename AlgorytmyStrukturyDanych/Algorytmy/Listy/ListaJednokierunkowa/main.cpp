@@ -4,9 +4,9 @@
 
 int main()
 {
-	ListaJednokierunkowa x1;
+	ListaJednokierunkowa<double> x1;
 	
-	x1.addToHead(1);
+	x1.addToHead(1.1);
 	x1.addToHead(2);
 	x1.addToTail(3);
 	x1.addToHead(5);
