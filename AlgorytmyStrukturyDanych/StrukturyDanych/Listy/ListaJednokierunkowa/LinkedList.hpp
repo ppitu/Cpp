@@ -41,6 +41,35 @@ class LinkedList
 		void deleteFromHead();
 		void deleteFormTail();
 
+		class Iterator
+		{
+			public:
+				Element<T> *current;
+
+				Iterator();
+				Iterator(Element<T> *ptr) : current(ptr) {}
+				Iterator(const Iterator& other) : current(other.current) {}
+				
+				Iterator& operator=(Iterator other) {std::swap(current, other.current); return *this; }
+
+				T& operator*();
+				Iterator& operator++() { current = current->next; return *this; }
+				Iterator operator++(int) { Iterator it(*this); current = current->next; return it; }
+				bool operator!=(Iterator& );
+				bool operator==(Iterator& );
+
+				T& operator*() const;
+				bool operator!=(Iterator& ) const;
+				bool operator==(Iterator& ) const;
+		
+		};
+
+		Iterator begin();
+		Iterator end();
+
+		Iterator begin() const;
+		Iterator end() const;
+
 	private:
 		Element<T> *head, *tail;
 };
