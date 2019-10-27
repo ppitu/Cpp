@@ -2,6 +2,19 @@
 
 #include "LinkedList.hpp"
 
+template <typename T>
+void printList(LinkedList<T> &s)
+{
+	for(auto &e : s)
+		std::cout << e << " ";
+	std::cout << std::endl;
+	std::cout << "Stale iteratory" <<std::endl;
+
+	for(const auto &e : s)
+		std::cout << e << " ";
+	std::cout << std::endl;
+}
+
 int main()
 {
 	LinkedList<int> x1;
@@ -41,6 +54,9 @@ int main()
 
 	x3.display();
 	x1.display();
+
+	std::cout << "Test konstruktorow" << std::endl;
+	printList(x2);
 
 	return 0;
 }

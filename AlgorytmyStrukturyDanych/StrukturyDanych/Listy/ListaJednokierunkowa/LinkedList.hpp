@@ -2,6 +2,7 @@
 #define LINKEDLIST_HPP_
 
 #include <iostream>
+#include <memory>
 
 template <typename T>
 struct Element
@@ -44,7 +45,7 @@ class LinkedList
 		class Iterator
 		{
 			public:
-				Element<T> *current;
+				Element<T>* current;
 
 				Iterator();
 				Iterator(Element<T> *ptr) : current(ptr) {}
@@ -52,16 +53,17 @@ class LinkedList
 				
 				Iterator& operator=(Iterator other) {std::swap(current, other.current); return *this; }
 
-				T& operator*();
+				T& operator*() { return current->data; }
 				Iterator& operator++() { current = current->next; return *this; }
 				Iterator operator++(int) { Iterator it(*this); current = current->next; return it; }
-				bool operator!=(Iterator& );
-				bool operator==(Iterator& );
+				bool operator!=(Iterator& other) { return current != other.current; }
+				bool operator==(Iterator& other) { return current == other.current; }
 
-				T& operator*() const;
-				bool operator!=(Iterator& ) const;
-				bool operator==(Iterator& ) const;
-		
+				bool operator!=(Iterator& other) const { return current != other.current; }
+				bool operator==(Iterator& other) const { return current == other.current; }
+				T& operator*() const { return current->data; }
+
+						
 		};
 
 		Iterator begin();
@@ -142,4 +144,27 @@ void LinkedList<T>::deleteFromHead()
 	delete tmp;
 }
 
+template <typename T>
+typename LinkedList<T>::Iterator LinkedList<T>::begin()
+{
+	return Iterator(head->next);
+}
+
+template <typename T>
+typename LinkedList<T>::Iterator LinkedList<T>::begin() const
+{
+	return Iterator(head->next);
+}
+
+template <typename T>
+typename LinkedList<T>::Iterator LinkedList<T>::end()
+{
+	return Iterator(tail->next);
+}
+
+template <typename T>
+typename LinkedList<T>::Iterator LinkedList<T>::end() const
+{
+	return Iterator(tail->next);
+}
 #endif //LINKEDLIST_HPP_
